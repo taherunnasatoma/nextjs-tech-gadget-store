@@ -29,7 +29,7 @@ export default function Navbar() {
                 </div>
                 <Link href={'/'} className=" text-xl">
 
-                    <Image src={'/assets/logo.png'} width={80} height={60} />
+                    <Image src={'/assets/logo.png'} width={80} height={60} alt='tech' />
                 </Link>
             </div>
             <div className="navbar-center hidden lg:flex">
@@ -40,8 +40,8 @@ export default function Navbar() {
                 </ul>
             </div>
             <div className="navbar-end gap-4">
-                <a className="btn bg-[#d02fc8] text-white">Login</a>
-                <a className="btn border  border-[#d02fc8] bg-white text-[#d02fc8]">Register</a>
+                <Link href={'/login'} className="btn bg-[#d02fc8] text-white">Login</Link>
+                <Link href={'/register'}  className="btn border  border-[#d02fc8] bg-white text-[#d02fc8]">Register</Link>
             </div>
         </div>
     )
