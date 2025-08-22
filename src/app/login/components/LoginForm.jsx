@@ -1,10 +1,11 @@
 'use client'
 
 import React from 'react'
-// import { signIn } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import SocialLogin from './SocialLogin'
+
 
 export default function LoginForm() {
 
@@ -17,8 +18,9 @@ export default function LoginForm() {
         const email = form.email.value;
         const password = form.password.value;
         toast("Submitting....")
+        console.log(email)
 
-        try {
+       try {
             const response = await signIn('credentials', {
                 email,
                 password,
@@ -43,6 +45,8 @@ export default function LoginForm() {
             toast.error("Failed to Logged In")
 
         }
+
+        
     }
     return (
         <div>
@@ -82,6 +86,7 @@ export default function LoginForm() {
                 </button>
             </form>
             <SocialLogin></SocialLogin>
+
         </div>
     )
 }

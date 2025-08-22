@@ -1,7 +1,6 @@
 'use client';
 
-
-import { registerUser } from '@/app/action/auth/registerUser';
+import { registerUser } from '@/app/actions/auth/registerUser';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -17,29 +16,9 @@ export default function RegisterForm() {
     const email = form.email.value;
     const password = form.password.value;
     const image = form.image.value;
+    registerUser({name,email,password,image})
 
-    toast("Registering...");
-
-    // Step 1: Register user in MongoDB
-    const res = await registerUser({ name, email, password, image });
-
-    if (res?.success) {
-      // Step 2: Immediately log them in with credentials provider
-      const loginRes = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (loginRes.ok) {
-        toast.success("Registration successful, logging you in...");
-        router.push('/');
-      } else {
-        toast.error("Registered, but failed to log in.");
-      }
-    } else {
-      toast.error(res?.error || 'Registration failed');
-    }
+    
   };
 
   return (
