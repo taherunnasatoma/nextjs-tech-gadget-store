@@ -33,3 +33,14 @@ Install dependencies
 
 
 npm install
+
+
+🗂️ Route Summary
+Route	Description
+/	Homepage with product listings
+/login	Login page (NextAuth)
+/register	Register page
+/products/add	Add a new product (form with ImgBB upload)
+/products/[id]	Product details page (full image, description, price)
+/api/products	API route for product CRUD
+/api/auth/[...nextauth]	NextAuth authentication routes
