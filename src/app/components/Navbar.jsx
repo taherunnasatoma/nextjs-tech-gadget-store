@@ -16,6 +16,13 @@ export default function Navbar() {
       <li>
         <Link href={'/about'}>About</Link>
       </li>
+
+      {session && (
+          <>
+            <li><Link href="/addProduct">Add Product</Link></li>
+            <li><Link href="/myProducts">My Products</Link></li>
+          </>
+        )}
     </>
   );
 
