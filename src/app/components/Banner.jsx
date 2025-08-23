@@ -15,9 +15,7 @@ export default function Banner() {
     <p className="mt-4 text-lg md:text-xl max-w-2xl text-[#f4ff19] mx-auto">
       Discover the latest laptops, smartphones, and accessories at unbeatable prices.
     </p>
-    <button className="mt-6 btn bg-[#d02fc8] border-none text-white hover:bg-[#b225a8]">
-      Shop Now
-    </button>
+    
   </div>
 </section>
 

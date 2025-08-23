@@ -8,51 +8,68 @@ export default function AddProductForm() {
   const { data: session } = useSession();
   const [image, setImage] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const form = e.target;
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  const form = e.target;
 
-    const name = form.name.value;
-    const category = form.category.value;
-    const price = form.price.value;
-    const description = form.description.value;
+  const name = form.name.value;
+  const category = form.category.value;
+  const price = form.price.value;
+  const description = form.description.value;
 
-    if (!session?.user) {
-      toast.error("You must be logged in");
-      return;
-    }
+  if (!session?.user) {
+    toast.error("You must be logged in");
+    return;
+  }
 
-    // Image handling – temporary URL for preview/demo
-    const imageUrl = image ? URL.createObjectURL(image) : "/default-device.png";
+  let imageUrl = "/default-device.png";
 
-    try {
-      const res = await fetch("/api/products", {
+  // ✅ Upload image to ImgBB (if selected)
+  if (image) {
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const uploadRes = await fetch(
+      `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+      {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          category,
-          price,
-          description,
-          image: imageUrl,
-           userEmail: session.user.email,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        toast.success("Product added successfully!");
-        form.reset();
-        setImage(null);
-      } else {
-        toast.error(data.error || "Failed to add product");
+        body: formData,
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Server error");
+    );
+
+    const uploadData = await uploadRes.json();
+    imageUrl = uploadData.data.display_url; // ✅ hosted URL
+  }
+
+  try {
+    const res = await fetch("/api/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        category,
+        price,
+        description,
+        image: imageUrl,
+        userEmail: session.user.email,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      toast.success("Product added successfully!");
+      form.reset();
+      setImage(null);
+    } else {
+      toast.error(data.error || "Failed to add product");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    toast.error("Server error");
+  }
+};
+
 
   return (
     <div className="flex justify-center mt-6 items-center px-4 sm:px-6 lg:px-8">
